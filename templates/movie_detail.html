@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ===== Custom Styling ===== -->
+<style>
+    body {
+        background: url("https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}") no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    .backdrop-overlay {
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 40px;
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    }
+
+    .backdrop-overlay img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+    }
+
+    .badge a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .badge a:hover {
+        text-decoration: underline;
+    }
+
+    .trailer-section {
+        background-color: rgba(0, 0, 0, 0.85);
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 30px;
+        color: white;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .streaming-platforms {
+        margin-top: 20px;
+    }
+
+    .streaming-platform {
+        text-align: center;
+        margin: 10px;
+    }
+
+    .streaming-platform img,
+    .streaming-platform .emoji-icon {
+        height: 40px;
+        display: block;
+        margin: 0 auto;
+        font-size: 40px;
+    }
+
+    .streaming-platform img:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+    }
+
+    .platform-name {
+        font-size: 0.85rem;
+        margin-top: 10px;
+        color: #ddd;
+    }
+</style>
+
+<!-- ===== Movie Info Section ===== -->
+<div class="backdrop-overlay container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} poster">
+        </div>
+        <div class="col-md-8">
+            <h2>{{ movie.title }}</h2>
+            {% if movie.tagline %}
+            <p class="fst-italic" style="color: #ffc107;">{{ movie.tagline }}</p>
+            {% endif %}
+            <p>{{ movie.overview or "No overview available." }}</p>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+            <p><strong>Rating:</strong> {{ movie.vote_average|round(1) }} / 10</p>
+            <p><strong>Runtime:</strong> {{ movie.runtime }} min</p>
+
+            {% if movie.genres %}
+            <p><strong>Genres:</strong>
+                {% for genre in movie.genres %}
+                <span class="badge bg-secondary me-1">
+                    <a href="{{ url_for('home', genre=genre.id) }}">{{ genre.name }}</a>
+                </span>
+                {% endfor %}
+            </p>
+            {% endif %}
+
+            <!-- ===== Top Cast Section ===== -->
+            {% if cast and cast|length > 0 %}
+            <div class="streaming-platforms">
+                <h5 class="mt-4">👥 Top Cast</h5>
+                <div class="d-flex flex-wrap justify-content-start">
+                    {% for actor in cast[:5] %}
+                    <div class="streaming-platform text-center">
+                        <a href="{{ url_for('person_movies', person_id=actor.id) }}" title="{{ actor.name }}">
+                        {% if actor.profile_path %}
+                            <img src="https://image.tmdb.org/t/p/w185{{ actor.profile_path }}" alt="{{ actor.name }} photo" style="height: 60px; width: 60px; border-radius: 50%; object-fit: cover;">
+                            {% else %}
+                            <div class="emoji-icon">👤</div>
+                            {% endif %}
+                        </a>
+                        <div class="platform-name">{{ actor.name }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- ===== Streaming Platforms Section ===== -->
+            <div class="streaming-platforms">
+                <h5 class="mt-4">📺 Available to Stream in Saudi Arabia:</h5>
+                <div class="d-flex flex-wrap justify-content-start">
+                    {% if streaming_links %}
+                    {% for provider in streaming_links %}
+                    <div class="streaming-platform text-center">
+                        <a href="{{ provider.link }}" target="_blank" title="{{ provider.name }}">
+                            <img src="{{ provider.logo_url }}" alt="{{ provider.name }} logo">
+                        </a>
+                        <div class="platform-name">{{ provider.name }}</div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="streaming-platform text-center">
+                        <div class="emoji-icon">🚫</div>
+                        <div class="platform-name">Not Available</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <a href="{{ url_for('home') }}" class="btn btn-outline-light mt-4">← Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Trailer Section ===== -->
+{% if trailer_key %}
+<div class="container trailer-section">
+    <h3 class="text-white mb-3">🎬 Official Trailer</h3>
+    <div class="ratio ratio-16x9">
+        <iframe src="https://www.youtube.com/embed/{{ trailer_key }}" title="YouTube trailer" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </div>
+</div>
+{% else %}
+<div class="container trailer-section text-white">
+    <p>No trailer available for this movie.</p>
+</div>
+{% endif %}
+
+{% endblock %}

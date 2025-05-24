@@ -1,0 +1,28 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment
+.env
+venv/
+.env.*
+
+# VSCode settings
+.vscode/
+
+# MacOS system files
+.DS_Store
+
+# Log files
+*.log
+
+# PyCharm settings
+.idea/
+
+# Flask instance folder
+instance/
+
+# Database (if using SQLite)
+*.sqlite3
+*.db

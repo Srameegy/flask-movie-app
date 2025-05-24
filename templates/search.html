@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5 text-white">
+    <h3 class="mb-4">🔎 Search Results for "{{ query }}"</h3>
+
+    <!-- Filter & Sort Controls -->
+    <form method="get" class="mb-4 text-end">
+        <input type="hidden" name="query" value="{{ query }}">
+        <input type="hidden" name="type" value="{{ type }}">
+
+        <!-- Sort Dropdown -->
+        <label for="sort_by" class="me-2 fw-bold text-white">Sort by:</label>
+        <select name="sort_by" id="sort_by" onchange="this.form.submit()" class="form-select d-inline-block w-auto">
+            <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Newest Release</option>
+            <option value="rating" {% if sort_by == 'rating' %}selected{% endif %}>Top Rated</option>
+        </select>
+
+        <!-- Genre Dropdown -->
+        <label for="genre" class="me-2 fw-bold text-white ms-3">Genre:</label>
+        <select name="genre" id="genre" onchange="this.form.submit()" class="form-select d-inline-block w-auto">
+            <option value="">All Genres</option>
+            {% for genre_id, genre_name in genres.items() %}
+            <option value="{{ genre_id }}" {% if genre_filter == genre_id %}selected{% endif %}>
+                {{ genre_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <!-- Actor Dropdown -->
+        <label for="actor" class="me-2 fw-bold text-white ms-3">Actor:</label>
+        <select name="actor" id="actor" onchange="this.form.submit()" class="form-select d-inline-block w-auto">
+            <option value="">All Actors</option>
+            {% for actor in actors %}
+            <option value="{{ actor }}" {% if selected_actor == actor %}selected{% endif %}>{{ actor }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <!-- Movie Grid -->
+    {% if movies %}
+    <div class="row">
+        {% for movie in movies %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                <a href="{{ url_for('movie_detail', movie_id=movie.id) }}">
+                    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }}">
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ movie.title }}</h5>
+                    <p class="card-text small text-light-gray">Release: {{ movie.release_date }}</p>
+                    <p class="card-text small text-warning">⭐ {{ "%.1f"|format(movie.vote_average) }} / 10</p>
+                    <a href="{{ url_for('movie_detail', movie_id=movie.id) }}" class="btn btn-primary mt-auto">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -4,7 +4,7 @@ A Flask web app to explore movies currently playing in cinemas using the TMDB AP
 
 ## 🌐 Live Demo
 
-🔗 [View Live Site on Render](https://flask-movie-app.onrender.com)
+🔗 [View Live Site on Render](https://flask-movie-app-98yx.onrender.com/)
 
 ## 🚀 Features
 

@@ -25,7 +25,6 @@ A Flask web app to explore movies currently playing in cinemas using the TMDB AP
 ![Detail 1](static/screenshots/detail.png)  
 ![Detail 2](static/screenshots/detail_2.png)
 
-> Place your screenshots in `static/screenshots/` and ensure filenames match the ones above.
 
 ## ⚙️ Tech Stack
 

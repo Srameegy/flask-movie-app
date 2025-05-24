@@ -2,6 +2,10 @@
 
 A Flask web app to explore movies currently playing in cinemas using the TMDB API. Users can browse movie details, watch trailers, check available streaming platforms in Saudi Arabia, and search by title or actor with autocomplete.
 
+## 🌐 Live Demo
+
+🔗 [View Live Site on Render](https://flask-movie-app.onrender.com)
+
 ## 🚀 Features
 
 - 🔍 Search by movie or actor with autocomplete
@@ -10,6 +14,18 @@ A Flask web app to explore movies currently playing in cinemas using the TMDB AP
 - 🎬 Watch trailers from YouTube
 - 🧙‍♂️ Filter by genre, rating, or cast
 - 📱 Mobile-responsive UI with Bootstrap
+
+## 🖼️ Screenshots
+
+| Home Page                              | Search Results                             |
+|----------------------------------------|--------------------------------------------|
+| ![Home](static/screenshots/home.png)   | ![Search](static/screenshots/search.png)   |
+
+**Movie Detail Page (Overview & Streaming)**  
+![Detail 1](static/screenshots/detail.png)  
+![Detail 2](static/screenshots/detail_2.png)
+
+> Place your screenshots in `static/screenshots/` and ensure filenames match the ones above.
 
 ## ⚙️ Tech Stack
 
@@ -53,6 +69,7 @@ A Flask web app to explore movies currently playing in cinemas using the TMDB AP
 flask-movie-app/
 │
 ├── static/
+│   └── screenshots/
 ├── templates/
 ├── .gitignore
 ├── .env               # Not committed
